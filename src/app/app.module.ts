@@ -12,6 +12,7 @@ import { CreatePostComponent } from './create-post/create-post.component';
 // Componentes de Material
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [AppComponent, CreatePostComponent],
@@ -22,6 +23,7 @@ import { MatInputModule } from '@angular/material/input';
     FormsModule,
     MatButtonModule,
     MatInputModule,
+    MatCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
