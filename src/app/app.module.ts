@@ -13,9 +13,10 @@ import { CreatePostComponent } from './create-post/create-post.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { PostListComponent } from './post-list/post-list.component';
 
 @NgModule({
-  declarations: [AppComponent, CreatePostComponent],
+  declarations: [AppComponent, CreatePostComponent, PostListComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

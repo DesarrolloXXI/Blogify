@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Post } from '../models/post.model';
 
@@ -10,7 +10,7 @@ import { Post } from '../models/post.model';
 export class CreatePostComponent implements OnInit {
   content: string = 'Hola a todos';
   texto: string = '';
-  posts: Post[] = [];
+  @Output() createPost = new EventEmitter<Post>();
 
   constructor() {}
 
@@ -21,7 +21,9 @@ export class CreatePostComponent implements OnInit {
   }
 
   addPost(form: NgForm) {
-    console.log(form.value.title);
-    this.posts.push(form.value);
+    if (form.valid) {
+      this.createPost.emit(form.value);
+      form.resetForm();
+    }
   }
 }

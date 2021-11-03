@@ -1,0 +1,9 @@
+<p *ngIf="posts.length === 0">No se han agregado posts</p>
+
+<mat-card *ngFor="let item of posts">
+  <mat-card-title>{{ item.title }}</mat-card-title>
+  <mat-card-subtitle>{{ item.summary }}</mat-card-subtitle>
+  <mat-card-content>
+    <p>{{ item.content }}</p>
+  </mat-card-content>
+</mat-card>
