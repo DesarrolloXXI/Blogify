@@ -29,3 +29,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Sprint 2
 
 [Pantallazos](https://drive.google.com/drive/folders/1_-Q-AdV3m4MNqUw1qEE6zyeSzwCgtupj?usp=sharing)
+
+![Diagrama de clases](https://lucid.app/publicSegments/view/dbfb2e7a-9ff5-4ef9-8b06-4634401b3d9f/image.png)
