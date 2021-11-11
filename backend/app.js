@@ -1,4 +1,5 @@
 const express = require("express");
+var cors = require("cors");
 const app = express();
 
 const postRoutes = require("./routes/posts");
@@ -7,6 +8,7 @@ const postRoutes = require("./routes/posts");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 // Configuracion de la conexion a la bd
 

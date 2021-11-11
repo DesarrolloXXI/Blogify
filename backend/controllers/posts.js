@@ -22,5 +22,5 @@ exports.getPosts = (req, res) => {
 exports.addPost = (req, res) => {
   console.log(req.body);
   posts.push(req.body);
-  res.status(201).json("Post creado");
+  res.status(201).json({ message: "Post creado" });
 };

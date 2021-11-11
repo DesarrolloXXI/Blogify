@@ -1,3 +1,7 @@
+// -----------------------------------------
+// | Este archivo ya no se esta utilizando |
+// -----------------------------------------
+
 // Importacion del modulo Express bajo el alias express
 const express = require("express");
 // Genera una nueva instancia de express
