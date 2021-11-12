@@ -1,3 +1,5 @@
+const Post = require("../models/post");
+
 const posts = [
   {
     title: "Primer post",
@@ -21,6 +23,15 @@ exports.getPosts = (req, res) => {
 
 exports.addPost = (req, res) => {
   console.log(req.body);
-  posts.push(req.body);
-  res.status(201).json({ message: "Post creado" });
+  //posts.push(req.body);
+  const postAdd = new Post({
+    title: req.body.title,
+    summary: req.body.summary,
+    content: req.body.content,
+  });
+
+  postAdd.save().then((createdPost) => {
+    console.log(createdPost);
+    res.status(201).json({ message: "Post creado" });
+  });
 };
