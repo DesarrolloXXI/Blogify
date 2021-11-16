@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Post } from '../models/post.model';
 import { PostService } from '../services/post.service';
 
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -13,7 +14,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   postsSub: Subscription;
 
-  constructor(public postService: PostService) {
+  constructor(public postService: PostService, public dialog: MatDialog) {
     this.postsSub = this.postService
       .getPostsUpdateListener()
       .subscribe((posts: Post[]) => {
@@ -33,4 +34,17 @@ export class PostListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.postsSub.unsubscribe();
   }
+
+  onDelete(id: string) {
+    console.log(id);
+    this.postService.deletePost(id);
+
+    const dialogRef = this.dialog.open(DeleteMessage);
+  }
 }
+
+@Component({
+  selector: 'delete-msg',
+  templateUrl: 'delete-msg.component.html',
+})
+export class DeleteMessage {}

@@ -36,6 +36,15 @@ export class PostService {
     });
   }
 
+  deletePost(id: string) {
+    this.http.delete(`${this.url}/${id}`).subscribe((response) => {
+      console.log(response);
+      const postsFiltered = this.posts.filter((post) => post._id != id);
+      this.posts = postsFiltered;
+      this.postUpdated.next([...this.posts]);
+    });
+  }
+
   getPostsUpdateListener() {
     return this.postUpdated.asObservable();
   }

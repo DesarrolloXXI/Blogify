@@ -17,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import { PostListComponent } from './post-list/post-list.component';
 import { HeaderComponent } from './header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatInputModule,
     MatCardModule,
     MatToolbarModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

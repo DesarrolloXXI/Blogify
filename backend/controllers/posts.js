@@ -18,7 +18,9 @@ exports.getMessage = (req, res) => {
 };
 
 exports.getPosts = (req, res) => {
-  res.status(200).json(posts);
+  Post.find().then((postResult) => {
+    res.status(200).json(postResult);
+  });
 };
 
 exports.addPost = (req, res) => {
@@ -33,5 +35,15 @@ exports.addPost = (req, res) => {
   postAdd.save().then((createdPost) => {
     console.log(createdPost);
     res.status(201).json({ message: "Post creado" });
+  });
+};
+
+exports.deletePost = (req, res) => {
+  Post.deleteOne({ _id: req.params.id }).then((result) => {
+    if (result.deletedCount > 0) {
+      res.status(200).json({ message: "Post eliminado" });
+    } else {
+      res.status(200).json({ message: "Post no encontrado" });
+    }
   });
 };

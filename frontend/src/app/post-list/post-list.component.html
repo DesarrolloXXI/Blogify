@@ -6,4 +6,9 @@
   <mat-card-content>
     <p>{{ item.content }}</p>
   </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button color="warn" (click)="onDelete(item._id)">
+      ELIMINAR
+    </button>
+  </mat-card-actions>
 </mat-card>
