@@ -7,7 +7,14 @@
     <p>{{ item.content }}</p>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-button color="warn" (click)="onDelete(item._id)">
+    <button
+      mat-stroked-button
+      color="primary"
+      [routerLink]="['/edit', item.id]"
+    >
+      EDITAR
+    </button>
+    <button mat-button color="warn" (click)="onDelete(item.id)">
       ELIMINAR
     </button>
   </mat-card-actions>

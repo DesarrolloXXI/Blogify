@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Post } from '../models/post.model';
 
@@ -29,19 +30,50 @@ export class PostService {
   }
 
   getPosts() {
-    this.http.get<Post[]>(this.url).subscribe((response) => {
-      console.log(response);
-      this.posts = response;
-      this.postUpdated.next([...this.posts]);
-    });
+    this.http
+      .get<any>(this.url)
+      .pipe(
+        map((postsData) => {
+          return postsData.map(
+            (post: {
+              _id: string;
+              title: string;
+              summary: string;
+              content: string;
+            }) => {
+              return {
+                id: post._id,
+                title: post.title,
+                summary: post.summary,
+                content: post.content,
+              };
+            }
+          );
+        })
+      )
+      .subscribe((response) => {
+        console.log(response);
+        this.posts = response;
+        this.postUpdated.next([...this.posts]);
+      });
   }
 
   deletePost(id: string) {
     this.http.delete(`${this.url}/${id}`).subscribe((response) => {
       console.log(response);
-      const postsFiltered = this.posts.filter((post) => post._id != id);
+      const postsFiltered = this.posts.filter((post) => post.id != id);
       this.posts = postsFiltered;
       this.postUpdated.next([...this.posts]);
+    });
+  }
+
+  updatePost(post: Post, id: string) {
+    this.http.put(`${this.url}/${id}`, post).subscribe((response) => {
+      const newPosts = [...this.posts];
+      const oldPostIndex = newPosts.findIndex((post) => post.id === id);
+      newPosts[oldPostIndex] = post;
+      this.postUpdated.next([...this.posts]);
+      this.router.navigate(['/']);
     });
   }
 

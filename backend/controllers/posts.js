@@ -47,3 +47,18 @@ exports.deletePost = (req, res) => {
     }
   });
 };
+
+exports.updatePost = (req, res) => {
+  const id = req.params.id;
+  const post = new Post({
+    _id: id,
+    title: req.body.title,
+    summary: req.body.summary,
+    content: req.body.content,
+  });
+
+  Post.updateOne({ _id: id }, post).then((result) => {
+    console.log(result);
+    res.status(200).json({ message: "Actualización exitosa" });
+  });
+};
