@@ -2,23 +2,36 @@
 <textarea [(ngModel)]="texto"></textarea>
 <button mat-raised-button color="primary" (click)="showText()">Guardar</button> -->
 
-<form (submit)="addPost(postForm)" #postForm="ngForm">
+<form (submit)="savePost(postForm)" #postForm="ngForm">
   <mat-form-field appearance="fill">
     <mat-label>Title</mat-label>
-    <input type="text" matInput ngModel title="ngModel" name="title" required />
+    <input
+      type="text"
+      matInput
+      [ngModel]="post.title"
+      title="ngModel"
+      name="title"
+      required
+    />
     <mat-error>{{ getErrorMessage() }}</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Summary</mat-label>
-    <input type="text" matInput ngModel summary="ngModel" name="summary" />
+    <input
+      type="text"
+      matInput
+      [ngModel]="post.summary"
+      summary="ngModel"
+      name="summary"
+    />
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Content</mat-label>
     <textarea
       matInput
-      ngModel
+      [ngModel]="post.content"
       content="ngModel"
       name="content"
       required

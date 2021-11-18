@@ -77,6 +77,15 @@ export class PostService {
     });
   }
 
+  getPost(id: string) {
+    return this.http.get<{
+      _id: string;
+      title: string;
+      summary: string;
+      content: string;
+    }>(`${this.url}/${id}`);
+  }
+
   getPostsUpdateListener() {
     return this.postUpdated.asObservable();
   }

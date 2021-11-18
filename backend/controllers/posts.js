@@ -62,3 +62,12 @@ exports.updatePost = (req, res) => {
     res.status(200).json({ message: "Actualización exitosa" });
   });
 };
+
+exports.getPost = (req, res) => {
+  const id = req.params.id;
+
+  Post.findById(id).then((result) => {
+    console.log(result);
+    res.status(200).json(result);
+  });
+};
