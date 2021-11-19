@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from '../models/post.model';
 
-import { PostService } from '../services/post.service';
+import { PostService } from '../services/post/post.service';
 
 @Component({
   selector: 'create-post',

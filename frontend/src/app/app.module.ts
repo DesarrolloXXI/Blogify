@@ -18,6 +18,8 @@ import { PostListComponent } from './post-list/post-list.component';
 import { HeaderComponent } from './header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     CreatePostComponent,
     PostListComponent,
     HeaderComponent,
+    LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,

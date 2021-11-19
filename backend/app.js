@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 
 const postRoutes = require("./routes/posts");
+const userRoutes = require("./routes/users");
 
 // Import de las routes
 
@@ -25,5 +26,6 @@ mongoose
   });
 
 app.use("/api/posts", postRoutes);
+app.use("/api/users", userRoutes);
 
 module.exports = app;

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Post } from '../models/post.model';
-import { PostService } from '../services/post.service';
+import { PostService } from '../services/post/post.service';
 
 import { MatDialog } from '@angular/material/dialog';
 @Component({
