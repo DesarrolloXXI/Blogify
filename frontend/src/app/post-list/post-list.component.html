@@ -11,10 +11,16 @@
       mat-stroked-button
       color="primary"
       [routerLink]="['/edit', item.id]"
+      *ngIf="isAuth === true"
     >
       EDITAR
     </button>
-    <button mat-button color="warn" (click)="onDelete(item.id)">
+    <button
+      mat-button
+      color="warn"
+      (click)="onDelete(item.id)"
+      *ngIf="isAuth === true"
+    >
       ELIMINAR
     </button>
   </mat-card-actions>

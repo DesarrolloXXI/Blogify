@@ -44,5 +44,9 @@ exports.login = (req, res) => {
         "MisionTic2021_secret_for_Blogify",
         { expiresIn: "1h" }
       );
+      res.status(200).json({ token: token });
+    })
+    .catch((err) => {
+      return res.status(401).json({ message: "Autenticación fallida" });
     });
 };
