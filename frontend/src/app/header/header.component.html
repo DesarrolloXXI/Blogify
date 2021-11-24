@@ -14,6 +14,13 @@
       >
       <a
         mat-button
+        routerLink="/"
+        routerLinkActive="mat-accent"
+        *ngIf="isLogin === true"
+        >Logout</a
+      >
+      <a
+        mat-button
         routerLink="/login"
         routerLinkActive="mat-accent"
         *ngIf="isLogin === false"
