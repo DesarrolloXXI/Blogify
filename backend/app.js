@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -12,6 +13,7 @@ const userRoutes = require("./routes/users");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+app.use("/files", express.static(path.join("files")));
 
 // Configuracion de la conexion a la bd
 mongoose

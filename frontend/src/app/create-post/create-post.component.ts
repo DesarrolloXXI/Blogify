@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from '../models/post.model';
-
 import { PostService } from '../services/post/post.service';
+import { mimeType } from './mime-type.validator';
 
 @Component({
   selector: 'create-post',
@@ -11,6 +11,8 @@ import { PostService } from '../services/post/post.service';
   styleUrls: ['./create-post.component.css'],
 })
 export class CreatePostComponent implements OnInit {
+  form!: FormGroup;
+  imagePreview: string = '';
   errorMessage = 'Este campo es requerido.';
   private isEditing = false;
   private postId!: string;
@@ -19,11 +21,23 @@ export class CreatePostComponent implements OnInit {
     title: '',
     summary: '',
     content: '',
+    imageUrl: '',
+    author: '',
   };
 
   constructor(public postService: PostService, public route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      title: new FormControl(null, { validators: [Validators.required] }),
+      summary: new FormControl(),
+      content: new FormControl(null, { validators: [Validators.required] }),
+      image: new FormControl(null, {
+        validators: [Validators.required],
+        asyncValidators: [mimeType],
+      }),
+    });
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('postId')) {
         this.isEditing = true;
@@ -34,7 +48,17 @@ export class CreatePostComponent implements OnInit {
             title: postData.title,
             summary: postData.summary,
             content: postData.content,
+            imageUrl: postData.imageUrl,
+            author: postData.author,
           };
+
+          this.form.setValue({
+            title: this.post.title,
+            summary: this.post.summary,
+            content: this.post.content,
+            image: this.post.imageUrl,
+          });
+          this.imagePreview = this.post.imageUrl;
         });
       } else {
         this.isEditing = false;
@@ -43,21 +67,36 @@ export class CreatePostComponent implements OnInit {
     });
   }
 
-  savePost(form: NgForm) {
-    if (form.invalid) {
+  savePost() {
+    if (this.form.invalid) {
       return;
     }
 
     if (this.isEditing) {
-      this.postService.updatePost(form.value, this.postId);
+      this.postService.updatePost(
+        this.form.value,
+        this.postId,
+        this.form.value.image
+      );
     } else {
-      this.postService.addPost(form.value);
+      this.postService.addPost(this.form.value, this.form.value.image);
     }
 
-    form.resetForm();
+    this.form.reset();
   }
 
   getErrorMessage() {
     return this.errorMessage;
+  }
+
+  onImageSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files![0];
+    this.form.patchValue({ image: file });
+    this.form.get('image')?.updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
   }
 }

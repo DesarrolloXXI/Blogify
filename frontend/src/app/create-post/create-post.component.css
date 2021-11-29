@@ -8,3 +8,15 @@ form {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.image-preview {
+  height: 5rem;
+}
+
+.image-preview img {
+  height: 100%;
+}

@@ -4,9 +4,15 @@
   <mat-card-title>{{ item.title }}</mat-card-title>
   <mat-card-subtitle>{{ item.summary }}</mat-card-subtitle>
   <mat-card-content>
+    <div class="post-image">
+      <img [src]="item.imageUrl" [alt]="item.title" />
+    </div>
     <p>{{ item.content }}</p>
   </mat-card-content>
-  <mat-card-actions align="end" *ngIf="isAuth === true">
+  <mat-card-actions
+    align="end"
+    *ngIf="isAuth === true && item.author === userId"
+  >
     <button
       mat-stroked-button
       color="primary"

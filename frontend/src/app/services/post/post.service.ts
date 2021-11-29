@@ -17,9 +17,17 @@ export class PostService {
 
   constructor(private router: Router, private http: HttpClient) {}
 
-  addPost(post: Post) {
+  addPost(post: Post, imagen: File) {
+    console.log(post);
+    const postData = new FormData();
+    postData.append('title', post.title);
+    postData.append('summary', post.summary);
+    postData.append('content', post.content);
+    postData.append('image', imagen, post.title);
+    console.log(postData);
+
     this.http
-      .post<{ message: string }>(this.url, post)
+      .post<{ message: string }>(this.url, postData)
       .subscribe((response) => {
         console.log(response);
         this.posts.push(post);
@@ -40,12 +48,16 @@ export class PostService {
               title: string;
               summary: string;
               content: string;
+              imageUrl: string;
+              author: string;
             }) => {
               return {
                 id: post._id,
                 title: post.title,
                 summary: post.summary,
                 content: post.content,
+                imageUrl: post.imageUrl,
+                author: post.author,
               };
             }
           );
@@ -67,8 +79,21 @@ export class PostService {
     });
   }
 
-  updatePost(post: Post, id: string) {
-    this.http.put(`${this.url}/${id}`, post).subscribe((response) => {
+  updatePost(post: Post, id: string, image: File | string) {
+    let postData: Post | FormData;
+
+    if (typeof image === 'object') {
+      postData = new FormData();
+      postData.append('id', id);
+      postData.append('title', post.title);
+      postData.append('summary', post.summary);
+      postData.append('content', post.content);
+      postData.append('image', image, post.title);
+    } else {
+      postData = post;
+    }
+
+    this.http.put(`${this.url}/${id}`, postData).subscribe((response) => {
       const newPosts = [...this.posts];
       const oldPostIndex = newPosts.findIndex((post) => post.id === id);
       newPosts[oldPostIndex] = post;
@@ -83,6 +108,8 @@ export class PostService {
       title: string;
       summary: string;
       content: string;
+      imageUrl: string;
+      author: string;
     }>(`${this.url}/${id}`);
   }
 

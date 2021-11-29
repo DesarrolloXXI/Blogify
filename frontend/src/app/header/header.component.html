@@ -5,6 +5,9 @@
   <span class="spacer"></span>
   <ul>
     <li>
+      <a mat-button>{{ username }}</a>
+    </li>
+    <li>
       <a
         mat-button
         routerLink="/add"
@@ -12,13 +15,13 @@
         *ngIf="isLogin === true"
         >Agregar</a
       >
-      <a
-        mat-button
-        routerLink="/"
-        routerLinkActive="mat-accent"
-        *ngIf="isLogin === true"
-        >Logout</a
-      >
+    </li>
+    <li>
+      <button mat-button *ngIf="isLogin === true" (click)="onLogout()">
+        Logout
+      </button>
+    </li>
+    <li>
       <a
         mat-button
         routerLink="/login"
@@ -26,6 +29,8 @@
         *ngIf="isLogin === false"
         >Login</a
       >
+    </li>
+    <li>
       <a
         mat-button
         routerLink="/signup"
