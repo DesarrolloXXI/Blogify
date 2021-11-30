@@ -6,12 +6,14 @@ import { map } from 'rxjs/operators';
 
 import { Post } from '../../models/post.model';
 
+import { environment } from 'src/environments/environment';
+
+const url = environment.apiUrl + '/posts';
+
 @Injectable({
   providedIn: 'root',
 })
 export class PostService {
-  url = 'http://localhost:3000/api/posts';
-
   posts: Post[] = [];
   postUpdated = new Subject<Post[]>();
 
@@ -26,20 +28,18 @@ export class PostService {
     postData.append('image', imagen, post.title);
     console.log(postData);
 
-    this.http
-      .post<{ message: string }>(this.url, postData)
-      .subscribe((response) => {
-        console.log(response);
-        this.posts.push(post);
-        // Generar notificacion de actualizacion a los componentes suscritos al Subject
-        this.postUpdated.next([...this.posts]);
-        this.router.navigate(['/']);
-      });
+    this.http.post<{ message: string }>(url, postData).subscribe((response) => {
+      console.log(response);
+      this.posts.push(post);
+      // Generar notificacion de actualizacion a los componentes suscritos al Subject
+      this.postUpdated.next([...this.posts]);
+      this.router.navigate(['/']);
+    });
   }
 
   getPosts() {
     this.http
-      .get<any>(this.url)
+      .get<any>(url)
       .pipe(
         map((postsData) => {
           return postsData.map(
@@ -71,7 +71,7 @@ export class PostService {
   }
 
   deletePost(id: string) {
-    this.http.delete(`${this.url}/${id}`).subscribe((response) => {
+    this.http.delete(`${url}/${id}`).subscribe((response) => {
       console.log(response);
       const postsFiltered = this.posts.filter((post) => post.id != id);
       this.posts = postsFiltered;
@@ -93,7 +93,7 @@ export class PostService {
       postData = post;
     }
 
-    this.http.put(`${this.url}/${id}`, postData).subscribe((response) => {
+    this.http.put(`${url}/${id}`, postData).subscribe((response) => {
       const newPosts = [...this.posts];
       const oldPostIndex = newPosts.findIndex((post) => post.id === id);
       newPosts[oldPostIndex] = post;
@@ -110,7 +110,7 @@ export class PostService {
       content: string;
       imageUrl: string;
       author: string;
-    }>(`${this.url}/${id}`);
+    }>(`${url}/${id}`);
   }
 
   getPostsUpdateListener() {
