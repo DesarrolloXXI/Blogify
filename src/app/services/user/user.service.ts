@@ -21,10 +21,10 @@ export class UserService {
   constructor(private router: Router, private http: HttpClient) {}
 
   createUser(user: User) {
-    this.http.post(`${url}/signup`, user).subscribe((response) => {
-      console.log(response);
-      this.router.navigate(['/login']);
-    });
+    return this.http.post<{ message: string; userId: string }>(
+      `${url}/signup`,
+      user
+    );
   }
 
   login(email: string, password: string) {
@@ -37,22 +37,7 @@ export class UserService {
         }
       )
       .subscribe((response) => {
-        this.token = response.token;
-        this.userId = response.userId;
-
-        if (this.token !== '') {
-          const expirationInSeconds = response.expiresIn;
-          this.setAuthTimer(expirationInSeconds);
-          this.isAuthenticated = true;
-          this.authStatusListener.next(true);
-          const now = new Date();
-          const expirationDate = new Date(
-            now.getTime() + expirationInSeconds * 1000
-          );
-          this.saveAuthData(this.token, expirationDate, this.userId);
-        }
-
-        this.router.navigate(['/']);
+        this.afterLogin(response);
       });
   }
 
@@ -100,6 +85,25 @@ export class UserService {
       this.setAuthTimer(expiresIn / 1000);
       this.authStatusListener.next(true);
     }
+  }
+
+  afterLogin(response: { token: string; expiresIn: number; userId: string }) {
+    this.token = response.token;
+    this.userId = response.userId;
+
+    if (this.token !== '') {
+      const expirationInSeconds = response.expiresIn;
+      this.setAuthTimer(expirationInSeconds);
+      this.isAuthenticated = true;
+      this.authStatusListener.next(true);
+      const now = new Date();
+      const expirationDate = new Date(
+        now.getTime() + expirationInSeconds * 1000
+      );
+      this.saveAuthData(this.token, expirationDate, this.userId);
+    }
+
+    this.router.navigate(['/']);
   }
 
   private setAuthTimer(durationInSeconds: number) {

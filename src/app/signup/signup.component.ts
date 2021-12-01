@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 import { UserService } from '../services/user/user.service';
 
@@ -12,7 +13,7 @@ export class SignupComponent implements OnInit {
   errorMessage = 'Campo inválido';
   user: User = { name: '', email: '', password: '' };
 
-  constructor(public userService: UserService) {}
+  constructor(public userService: UserService, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -21,7 +22,9 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    this.userService.createUser(form.value);
+    this.userService.createUser(form.value).subscribe((user) => {
+      this.router.navigate(['/login']);
+    });
   }
 
   getErrorMessage() {

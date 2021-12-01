@@ -23,6 +23,11 @@ import { SignupComponent } from './signup/signup.component';
 
 // Interceptors
 import { AuthInterceptor } from './auth.interceptor';
+import {
+  GoogleLoginProvider,
+  SocialAuthServiceConfig,
+  SocialLoginModule,
+} from 'angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -45,8 +50,23 @@ import { AuthInterceptor } from './auth.interceptor';
     MatCardModule,
     MatToolbarModule,
     MatDialogModule,
+    SocialLoginModule,
   ],
   providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '885163817315-j65uuqmcm654jlrdfsd1hiiddhvfqvbt.apps.googleusercontent.com'
+            ),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
