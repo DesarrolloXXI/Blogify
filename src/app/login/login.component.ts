@@ -43,11 +43,8 @@ export class LoginComponent implements OnInit {
         };
 
         this.userService.createUser(user).subscribe((user) => {
-          this.userService.afterLogin({
-            token: result.idToken,
-            expiresIn: 3600,
-            userId: user.userId,
-          });
+          console.log(result);
+          this.userService.loginGoogle(result.idToken, user.userId);
         });
 
         //this.userService.afterLogin({ token: result.idToken, expiresIn: 3600, userId: });

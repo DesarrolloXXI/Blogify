@@ -45,6 +45,21 @@ export class UserService {
     return this.http.get<{ username: string }>(`${url}/${userId}`);
   }
 
+  loginGoogle(token: string, userId: string) {
+    this.http
+      .post<{ token: string; expiresIn: number }>(`${url}/getToken`, {
+        token,
+        userId,
+      })
+      .subscribe((result) => {
+        this.afterLogin({
+          token: result.token,
+          expiresIn: result.expiresIn,
+          userId,
+        });
+      });
+  }
+
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
   }

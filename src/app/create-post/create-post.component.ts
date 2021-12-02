@@ -30,7 +30,7 @@ export class CreatePostComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       title: new FormControl(null, { validators: [Validators.required] }),
-      summary: new FormControl(),
+      summary: new FormControl(''),
       content: new FormControl(null, { validators: [Validators.required] }),
       image: new FormControl(null, {
         validators: [Validators.required],
